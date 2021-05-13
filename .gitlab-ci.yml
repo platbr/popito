@@ -1,0 +1,20 @@
+variables:
+  CONTAINER_IMAGE: docker-registry.baladapp.com.br/$CI_PROJECT_PATH
+  DOCKER_DRIVER: overlay2
+
+build:gem:
+  stage: build
+  image: docker-registry.baladapp.com.br/docker/baladapp-ruby/mina:latest
+  script:
+    - rake build
+    - rake release
+
+build:docker-image:
+  stage: build
+  image: docker:stable
+  script:
+    - TAG=v$(cat lib/popito/deployer/version.rb | grep VERSION | egrep -o '[0-9]+\.[0-9]+\.[0-9]+[\.a-z]*')
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN docker-registry.baladapp.com.br
+    - docker build -f docker/Dockerfile --tag $CONTAINER_IMAGE:latest --tag $CONTAINER_IMAGE:${TAG} .
+    - docker push $CONTAINER_IMAGE:latest
+    - docker push $CONTAINER_IMAGE:${TAG}
