@@ -1,9 +1,9 @@
 require 'base64'
 module Popito
   class ConfigPayload
-    attr_accessor :project_path, :build_path, :deploy_path, :stages, :build_config, :project_token, :included_files
+    attr_accessor :project_path, :build_path, :deploy_path, :stages, :build_config, :project_token, :included_files, :api_endpoint
 
-    def initialize(project_path:, project_token:, stages: [], build_config: {}, included_files: [])
+    def initialize(project_path:, project_token:, stages: [], build_config: {}, included_files: [], api_endpoint: 'http://localhost:3000')
       self.project_path = File.expand_path(project_path)
       self.build_path = File.expand_path("#{project_path}/#{Popito::BUILD_DIR_NAME}")
       self.deploy_path = File.expand_path("#{project_path}/#{Popito::DEPLOY_DIR_NAME}")
@@ -11,6 +11,7 @@ module Popito
       self.project_token = project_token
       self.build_config = build_config
       self.included_files = included_files
+      self.api_endpoint = api_endpoint
     end
 
     def included_files_payload

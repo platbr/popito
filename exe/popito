@@ -30,6 +30,7 @@ config_payload = Popito::ConfigPayload.new(
   project_path: params[:path],
   stages: stages,
   project_token: params[:token],
+  api_endpoint: params[:endpoint],
   build_config: {
     IMAGE_TAG: params[:tag],
     IMAGE_TAG_ALT: params[:tag_alt],
