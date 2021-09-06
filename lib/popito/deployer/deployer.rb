@@ -5,7 +5,6 @@ module Popito
   DEPLOY_DIR_NAME = '_popito/deploy'
 end
 
-require 'byebug'
 require_relative "version"
 require_relative 'config/config_payload'
 require_relative 'client/client_base'

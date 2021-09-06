@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Wagner Caixeta"]
   spec.email         = ["wagner.caixeta@gmail.com"]
 
-  spec.summary       = "WIP: Build docker images for Rails Projects and deploy it on K8S."
+  spec.summary       = "WIP: Build docker images for Rails Projects and deploy it on K8S using a Popito Server."
   spec.description   = "WIP: This gem is not ready yet."
   spec.homepage      = "http://github.com/platbr/popito"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.5.0")
