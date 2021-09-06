@@ -13,8 +13,6 @@ Gem::Specification.new do |spec|
   spec.homepage      = "http://github.com/platbr/popito"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.5.0")
 
-  spec.metadata["allowed_push_host"] = "https://gems.baladapp.com.br"
-
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "http://github.com/platbr/popito"
   spec.metadata["changelog_uri"] = "http://github.com/platbr/popito/blob/master/CHANGELOG.md"
