@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    popito (0.0.1.alpha)
+    popito (0.0.2.alpha)
       deep_merge (~> 1.2)
       erb (~> 2.2)
       json (~> 2.5)
