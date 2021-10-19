@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-
+# require 'byebug'
 require 'optparse'
 require_relative '../lib/popito/deployer/deployer'
 
@@ -15,10 +15,11 @@ OptionParser.new do |opts|
   opts.on('--env ENVIRONMENT', 'It define environment used to build images and deploy files.')
   opts.on('--endpoint https://popito.mydomain.com', 'It defines popito endpoint.')
   opts.on('--token POPITO_TOKEN', 'This popito token used to auth this client in a specific project.')
+  opts.on('--build-config-json JSON_STRING', 'You can set any build config at execution time.')
   opts.on('--path ./project_path', 'Root folder of the app.')
 end.parse!(into: params)
 
-raise ArgumentError, 'You can choose --deploy and --check together.' if params[:check] && params[:deploy]
+raise ArgumentError, 'You can\'t use --deploy and --check together.' if params[:check] && params[:deploy]
 
 stages = []
 stages.push('build') if params[:build]
@@ -26,16 +27,20 @@ stages.push('release') if params[:release]
 stages.push('check') if params[:check]
 stages.push('deploy') if params[:deploy]
 
+build_config = JSON.parse(params[:"build-config-json"] || "{}").merge(
+  {
+    IMAGE_TAG: params[:tag],
+    IMAGE_TAG_ALT: params[:tag_alt],
+    ENVIRONMENT: params[:env]
+  }
+)
+
 config_payload = Popito::ConfigPayload.new(
   project_path: params[:path],
   stages: stages,
   project_token: params[:token],
   api_endpoint: params[:endpoint],
-  build_config: {
-    IMAGE_TAG: params[:tag],
-    IMAGE_TAG_ALT: params[:tag_alt],
-    ENVIRONMENT: params[:env]
-  }
+  build_config: build_config
 )
 
 if params[:build] || params[:release]
