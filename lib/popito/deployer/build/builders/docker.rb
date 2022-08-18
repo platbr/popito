@@ -34,7 +34,7 @@ module Popito
         def docker_push
           tags.each do |tag|
             puts "#{self.class.name}: docker push #{image}:#{tag}"
-            system "docker push #{image}:#{tag}, exception: true"
+            system "docker push #{image}:#{tag}", exception: true
           end
         end
 
