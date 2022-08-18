@@ -15,29 +15,25 @@ module Popito
 
     def build
       yaml_config["build"].each do |build|
-        build["tags"].each do |tag|
-          builder = Popito::BuildExecutor::Builders::Docker.new(
-            root_path: config_payload.project_path,
-            dockerfile: "#{config_payload.build_path}/#{build['dockerfile']}",
-            image: build["image"],
-            tag: tag
-          )
-          builder.build
-        end
+        builder = Popito::BuildExecutor::Builders::Docker.new(
+          root_path: config_payload.project_path,
+          dockerfile: "#{config_payload.build_path}/#{build['dockerfile']}",
+          image: build["image"],
+          tags: build["tags"]
+        )
+        builder.build
       end
     end
 
     def release
       yaml_config["build"].each do |build|
-        build["tags"].each do |tag|
-          builder = Popito::BuildExecutor::Builders::Docker.new(
-            root_path: config_payload.project_path,
-            dockerfile: "#{config_payload.build_path}/#{build['dockerfile']}",
-            image: build["image"],
-            tag: tag
-          )
-          builder.push
-        end
+        builder = Popito::BuildExecutor::Builders::Docker.new(
+          root_path: config_payload.project_path,
+          dockerfile: "#{config_payload.build_path}/#{build['dockerfile']}",
+          image: build["image"],
+          tags: build["tags"]
+        )
+        builder.push
       end
     end
 

@@ -3,12 +3,12 @@ module Popito
   class BuildExecutor
     module Builders
       class Docker
-        attr_accessor :dockerfile, :image, :tag, :root_path
+        attr_accessor :dockerfile, :image, :tags, :root_path
 
-        def initialize(root_path:, dockerfile:, image:, tag:)
+        def initialize(root_path:, dockerfile:, image:, tags:)
           self.dockerfile = dockerfile
           self.image = image
-          self.tag = tag
+          self.tags = tags
           self.root_path = root_path
         end
 
@@ -16,7 +16,7 @@ module Popito
           puts "Building ..."
           puts "Dockerfile: #{dockerfile}"
           puts "Image: #{image}"
-          puts "Tag: #{tag}"
+          puts "Tags: #{tags}"
           Dir.chdir(root_path)
           docker_build
         end
@@ -25,24 +25,27 @@ module Popito
           puts "Pushing ..."
           puts "Dockerfile: #{dockerfile}"
           puts "Image: #{image}"
-          puts "Tag: #{tag}"
+          puts "Tags: #{tags}"
           docker_push
         end
 
         private
 
         def docker_push
-          puts "#{self.class.name}: docker push #{image_full_name}"
-          system "docker push #{image_full_name}", exception: true
+          tags.each do |tag|
+            puts "#{self.class.name}: docker push #{image}:#{tag}"
+            system "docker push #{image}:#{tag}, exception: true"
+          end
         end
 
         def docker_build
-          puts "#{self.class.name}: docker build #{image_full_name}"
-          system "docker build -f #{dockerfile} --tag #{image_full_name} .", exception: true
-        end
-
-        def image_full_name
-          "#{image}:#{tag}"
+          command = "docker build -f #{dockerfile}"
+          tags.each do |tag|
+            command << " --tag #{image}:#{tag}"
+          end
+          command << " ."
+          puts "#{self.class.name}: #{command}"
+          system command, exception: true
         end
       end
     end

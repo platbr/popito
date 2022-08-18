@@ -30,7 +30,7 @@ stages.push('deploy') if params[:deploy]
 build_config = JSON.parse(params[:"build-config-json"] || "{}").merge(
   {
     IMAGE_TAG: params[:tag],
-    IMAGE_TAG_ALT: params[:tag_alt],
+    IMAGE_TAG_ALT: params[:"tag-alt"],
     ENVIRONMENT: params[:env]
   }
 )
