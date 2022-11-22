@@ -1,6 +1,7 @@
 require 'rest-client'
 require 'json'
 require 'minitar'
+require 'byebug'
 module Popito
   class ClientBase
     API_HOST = 'http://localhost:3000'.freeze
@@ -13,7 +14,10 @@ module Popito
     private
 
     def parse_error(err)
-      JSON.parse(err.response.body)["message"]
+      info=JSON.parse(err.response.body)
+      puts "Message: " + info["message"]
+      puts ("Debug:\n" + info["debug_data"]) if info["debug_data"]
+      info["message"]
     rescue StandardError
       "An error has been occurred."
     end
