@@ -1,7 +1,6 @@
 require 'rest-client'
 require 'json'
 require 'minitar'
-require 'byebug'
 module Popito
   class ClientBase
     API_HOST = 'http://localhost:3000'.freeze
