@@ -33,7 +33,7 @@ module Popito
     end
 
     def load_build_yaml
-      YAML.safe_load(File.read("#{config_payload.build_path}/build.yaml"))
+      YAML.safe_load(File.read("#{config_payload.deploy_path}/build.yaml"))
     end
   end
 end
