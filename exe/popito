@@ -55,4 +55,5 @@ if params[:check] || params[:deploy]
   deployer = Popito::DeployExecutor.new(config_payload)
   deployer.check if params[:check]
   deployer.deploy if params[:deploy]
+  deployer.push_deployed_tag if params[:deploy]
 end
