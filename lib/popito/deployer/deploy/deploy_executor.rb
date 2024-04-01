@@ -20,9 +20,11 @@ module Popito
     def push_deployed_tag
       yaml_build_config["build"].each do |build|
         tag = build["tags"].first
-        puts "Pushing #{build["image"]}:#{tag} to #{build["image"]}:popito-#{config_payload.build_config[:ENVIRONMENT]}"
-        system "docker image tag #{build["image"]}:#{tag} #{build["image"]}:popito-#{config_payload.build_config[:ENVIRONMENT]}", exception: true
-        system "docker push #{build["image"]}:popito-#{config_payload.build_config['ENVIRONMENT']}", exception: true
+        source = "#{build["image"]}:#{tag}"
+        target = "#{build["image"]}:popito-#{config_payload.build_config[:ENVIRONMENT]}"
+        puts "Pushing #{source} to #{target}"
+        system "docker image tag #{source} #{target}", exception: true
+        system "docker push #{target}", exception: true
       end
     end
 
