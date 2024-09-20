@@ -23,6 +23,7 @@ module Popito
         source = "#{build["image"]}:#{tag}"
         target = "#{build["image"]}:popito-#{config_payload.build_config[:ENVIRONMENT]}"
         puts "Pushing #{source} to #{target}"
+        system "docker pull #{source}", exception: true
         system "docker image tag #{source} #{target}", exception: true
         system "docker push #{target}", exception: true
       end
